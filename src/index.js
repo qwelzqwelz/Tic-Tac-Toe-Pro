@@ -4,7 +4,7 @@ import "./index.css";
 
 function Square(props) {
     return (
-        <button className={`square ${props.highlight ? 'highlight' : ''}`} onClick={() => props.handleClick()}>
+        <button className={`square ${props.highlight ? "highlight" : ""}`} onClick={() => props.handleClick()}>
             {props.value}
         </button>
     );
@@ -12,7 +12,14 @@ function Square(props) {
 
 class Board extends React.Component {
     renderSquare(i) {
-        return <Square key={i} highlight={this.props.line.includes(i)} value={this.props.squares[i]} handleClick={() => this.props.handleClick(i)} />;
+        return (
+            <Square
+                key={i}
+                highlight={this.props.line.includes(i)}
+                value={this.props.squares[i]}
+                handleClick={() => this.props.handleClick(i)}
+            />
+        );
     }
 
     renderRow(rowIndex, length) {
@@ -86,7 +93,11 @@ class Game extends React.Component {
         let history = this.state.history.slice();
         const current = history[this.state.stepNumber];
         const [winner, line] = calculateWinner(current.squares);
-        const status = winner ? `Winner: ${winner}.` : `Next player: ${this.state.isXNext ? "X" : "O"}`;
+        const status = winner
+            ? `Winner: ${winner}.`
+            : calculateGameDraw(current.squares)
+            ? "平局"
+            : `Next player: ${this.state.isXNext ? "X" : "O"}`;
 
         const moves = history.map(({ squares, position }, index) => {
             let buttonText = index === 0 ? "go to game start" : `move to step ${index}`;
@@ -134,6 +145,19 @@ function calculateWinner(squares) {
         }
     }
     return [null, []];
+}
+
+function calculateGameDraw(squares) {
+    let result = true;
+    for (let i = squares.length - 1; i >= 0; i--) {
+        if (squares[i] !== "X" && squares[i] !== "O") {
+            result = false;
+            break;
+        }
+    }
+    console.log(squares);
+
+    return result;
 }
 
 // ========================================
