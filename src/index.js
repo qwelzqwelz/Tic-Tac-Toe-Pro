@@ -63,7 +63,7 @@ class Game extends React.Component {
 
         this.setState({
             isXNext: !this.state.isXNext,
-            stepNumber: history.length + 1,
+            stepNumber: history.length,
             history: history.concat([{ squares }]),
         });
     }
