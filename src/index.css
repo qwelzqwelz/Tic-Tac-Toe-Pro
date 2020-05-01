@@ -53,3 +53,7 @@ ul {
 button.selected {
     font-weight: bold;
 }
+
+button.highlight{
+    background-color: rgb(193, 231, 123);
+}
