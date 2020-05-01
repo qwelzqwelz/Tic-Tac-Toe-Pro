@@ -155,7 +155,6 @@ function calculateGameDraw(squares) {
             break;
         }
     }
-    console.log(squares);
 
     return result;
 }
