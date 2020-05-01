@@ -45,6 +45,7 @@ class Game extends React.Component {
             history: [{ squares: Array(9).fill(null), position: null }],
             isXNext: true,
             stepNumber: 0,
+            selectedIndex: null,
         };
     }
 
@@ -67,6 +68,7 @@ class Game extends React.Component {
         this.setState({
             stepNumber: step,
             isXNext: step % 2 === 0,
+            selectedIndex: step,
         });
     }
 
@@ -81,7 +83,9 @@ class Game extends React.Component {
             buttonText += position === null ? "" : ` --> position : (${position % 3}, ${Math.floor(position / 3)})`;
             return (
                 <li key={index}>
-                    <button onClick={() => this.jumpTo(index)}>{buttonText}</button>
+                    <button className={index === this.state.selectedIndex ? "selected" : ""} onClick={() => this.jumpTo(index)}>
+                        {buttonText}
+                    </button>
                 </li>
             );
         });
