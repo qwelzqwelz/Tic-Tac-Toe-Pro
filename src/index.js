@@ -18,9 +18,11 @@ class Board extends React.Component {
     renderRow(rowIndex, length) {
         return (
             <div key={rowIndex} className="board-row">
-                {Array(length).fill().map((elem, index) => {
-                    return this.renderSquare(rowIndex * length + index);
-                })}
+                {Array(length)
+                    .fill()
+                    .map((elem, index) => {
+                        return this.renderSquare(rowIndex * length + index);
+                    })}
             </div>
         );
     }
@@ -29,9 +31,11 @@ class Board extends React.Component {
         const LENGTH = 3;
         return (
             <div>
-                {Array(LENGTH).fill().map((elem, index) => {
-                    return this.renderRow(index, LENGTH);
-                })}
+                {Array(LENGTH)
+                    .fill()
+                    .map((elem, index) => {
+                        return this.renderRow(index, LENGTH);
+                    })}
             </div>
         );
     }
@@ -45,6 +49,7 @@ class Game extends React.Component {
             isXNext: true,
             stepNumber: 0,
             selectedIndex: null,
+            toASC: false,
         };
     }
 
@@ -71,8 +76,14 @@ class Game extends React.Component {
         });
     }
 
+    reverseOrder() {
+        this.setState({
+            toASC: !this.state.toASC,
+        });
+    }
+
     render() {
-        const history = this.state.history;
+        let history = this.state.history.slice();
         const current = history[this.state.stepNumber];
         const winner = calculateWinner(current.squares);
         const status = winner ? `Winner: ${winner}.` : `Next player: ${this.state.isXNext ? "X" : "O"}`;
@@ -95,7 +106,10 @@ class Game extends React.Component {
                 </div>
                 <div className="game-info">
                     <div>{status}</div>
-                    <ol>{moves}</ol>
+                    <button className="reverse-button" onClick={() => this.reverseOrder()}>
+                        {this.state.toASC ? "正序" : "逆序"}
+                    </button>
+                    <ol>{this.state.toASC ? moves.reverse() : moves}</ol>
                 </div>
             </div>
         );
